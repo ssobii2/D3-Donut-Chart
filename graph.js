@@ -37,10 +37,9 @@ const legend = d3.legendColor()
 
 const tip = d3.tip()
     .attr("class", "tip card")
-    .html(d => {
-        // let content = `<div class="name">${d.data.name}</div>`;
-        // content += `<div class="cost">$${d.data.cost}</div>`;
-        let content = `<div class="delete">Click slice to Delete</div>`;
+    .html((event, d) => {
+        let content = `<div class="name">${d.data.name}</div>`;
+        content += `<div class="cost">$${d.data.cost}</div>`;
         return content;
     })
 
@@ -84,13 +83,13 @@ const update = (data) => {
 
     // add events
     graph.selectAll("path")
-        .on("mouseover", function (d) {
-            tip.show(d, this);
-            handleMouseOver.bind(this)();
+        .on("mouseover", function (event, d) {
+            tip.show(event, d);
+            handleMouseOver.bind(this)(event, d);
         })
-        .on("mouseout", function (d) {
-            tip.hide(d, this);
-            handleMouseOut.bind(this)();
+        .on("mouseout", function (event, d) {
+            tip.hide(event, d);
+            handleMouseOut.bind(this)(event, d);
         })
         .on("click", handleClick);
 }
